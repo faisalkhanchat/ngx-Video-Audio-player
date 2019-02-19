@@ -22,15 +22,14 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     console.log(this.videoUrl);
     console.log(this.posterUrl);
-
   }
 
   ngAfterViewInit() {
- //   console.log(this.getDuration(this.videoplayer));
-    // this.videoCurrentTime = this.videoPlayer.nativeElement.currentTime ;
-    // console.log(this.videoCurrentTime);
+   console.log(this.getCurrentTime());
   }
-
+  getCurrentTime() {
+    return  this.videoCurrentTime =  this.videoPlayer.nativeElement.currentTime ;
+  }
   // getDuration(v) {
   //   let dur = v.duration;
   //   dur = dur.toFixed();
@@ -57,14 +56,34 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onInputChange(event: any) {
+  onSoundChange(event: any) {
     this.videoPlayer.nativeElement.volume = this.volumnSlide;
     console.log(this.volumnSlide);
   }
 
-  videoLenghtChanged(event: any) {
-  //  this.videoPlayer.nativeElement.currentTime = 5;
-  //  console.log(this.videoCurrentTime);
+  videoLenghtChanged() {
+    this.videoPlayer.nativeElement.currentTime = this.videoCurrentTime;
+   console.log(this.videoCurrentTime);
+  }
+
+
+
+  vidEnded() {
+    // alert();
+    this.playPauseBtn = true;
+  }
+
+  videoChanged() {
+    this.videoLenghtChanged();
+  }
+
+  videoTimeUpdate(a, info) {
+    // this.videoLenghtChanged();
+    this.getCurrentTime();
+    // console.log(a);
+    // console.log('tim eupdated ');
+   //  alert();
+    
   }
 
 }

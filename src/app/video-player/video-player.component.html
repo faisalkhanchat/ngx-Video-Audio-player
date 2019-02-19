@@ -1,5 +1,7 @@
 <ng-container *ngIf="videoUrl !== ''">
-  <video controls (click)="toggleVideo()" #videoPlayer poster="{{posterUrl}}"  (loadedmetadata)="onMetadata($event, videoPlayer)">
+  <video controls (click)="toggleVideo()" #videoPlayer poster="{{posterUrl}}"  
+  (loadedmetadata)="onMetadata($event, videoPlayer)" (ended)="vidEnded()" (timeupdate)="videoTimeUpdate($event, videoPlayer)">
+
       <source [src]="videoUrl" type="video/mp4" />
       Browser not supported
   </video>
@@ -7,8 +9,9 @@
     <span> {{ videoCurrentTime }} </span> /
     <span> {{ videoDuration }} </span>
   </div>
-  <button class="play" (click)="toggleVideo()"> {{ playPauseBtn ? 'Play' : 'Pause' }} </button>
-  <mat-slider min="0.1" max="1" step="0.1" (input)="onInputChange($event)" [(value)]="volumnSlide"></mat-slider>
-  <input type="range" step="{{videoSteps}}"  min="{{videoDurationMin}}" max="{{videoDuration}}"
-  (input)="videoLenghtChanged($event)"  [(value)]="volumnSlide" >
+  <button class="play" (click)="toggleVideo()"> {{ playPauseBtn ? 'Play' : 'Pause' }} </button>  <br> <br>
+  <mat-slider min="0.1" max="1" step="0.1" (input)="onSoundChange($event)" [(value)]="volumnSlide"></mat-slider>  <br> <br>
+  <mat-slider step="{{videoSteps}}"  min="{{videoDurationMin}}" max="{{videoDuration}}"
+  (input)="videoLenghtChanged($event)"  [(value)]="videoCurrentTime" thumbLabel ></mat-slider>
+  
 </ng-container>
