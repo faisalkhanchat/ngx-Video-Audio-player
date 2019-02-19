@@ -12,7 +12,8 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
   @ViewChild('videoPlayer') videoPlayer: any;
   currentTime: 0;
   playPauseBtn = true;
-  volumnSlide = 0.1;
+  volumnSlide: any;
+  muteStatus: boolean;
   videoDuration = 0;
   videoCurrentTime = 1;
   videoDurationMin = 0;
@@ -20,22 +21,15 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
   constructor() { }
 
   ngOnInit() {
-    console.log(this.videoUrl);
-    console.log(this.posterUrl);
+    // console.log(this.videoUrl);
+    // console.log(this.posterUrl);
   }
 
   ngAfterViewInit() {
-   console.log(this.getCurrentTime());
+  // console.log(this.getCurrentTime());
   }
-  getCurrentTime() {
-    return  this.videoCurrentTime =  this.videoPlayer.nativeElement.currentTime ;
-  }
-  // getDuration(v) {
-  //   let dur = v.duration;
-  //   dur = dur.toFixed();
-  //   this.video.length = dur;
-  //   return dur;
-  // }
+
+
 
   onMetadata(e, video) {
     console.log('metadata: ', e);
@@ -43,6 +37,18 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
     this.videoDuration = video.duration;
     this.videoSteps = this.videoDuration / 10;
     console.log(this.videoSteps);
+
+   this.getCurrentTime();
+   this.getCurrentVolumn();
+   // this.volumnSlide = this.videoPlayer.nativeElement.volume;
+  }
+
+  getCurrentTime() {
+    this.videoCurrentTime =  this.videoPlayer.nativeElement.currentTime ;
+  }
+
+  getCurrentVolumn() {
+    this.volumnSlide = this.videoPlayer.nativeElement.volume;
   }
 
   toggleVideo(event: any) {
@@ -56,13 +62,12 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onSoundChange(event: any) {
-    this.videoPlayer.nativeElement.volume = this.volumnSlide;
-    console.log(this.volumnSlide);
+  getVolumnChange() {
+      // console.log(voll);
+      this.volumnSlide = this.videoPlayer.nativeElement.volume;
+      console.log(this.volumnSlide);
   }
-  // setVolumn(e, volumnSlide) {
 
-  // }
   videoLenghtChanged() {
     this.videoPlayer.nativeElement.currentTime = this.videoCurrentTime;
    console.log(this.videoCurrentTime);
@@ -75,21 +80,17 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
     this.playPauseBtn = true;
   }
 
-
-  videoTimeUpdate(a, info) {
-    // this.videoLenghtChanged();
+  videoTimeUpdate() {
     this.getCurrentTime();
-    // console.log(a);
-    // console.log('tim eupdated ');
-   //  alert();
-    
   }
 
-  setVideoTime(e, videoCurrentTime) {
-    console.log(e);
-    console.log(videoCurrentTime);
-    this.videoPlayer.nativeElement.currentTime =  videoCurrentTime;
-    
+  setVideoTime() {
+    this.videoPlayer.nativeElement.currentTime =  this.videoCurrentTime;
+  }
+
+  toggleMute() {
+    this.videoPlayer.nativeElement.muted = !this.videoPlayer.nativeElement.muted;
+    this.muteStatus = !this.muteStatus;
   }
 
 }
