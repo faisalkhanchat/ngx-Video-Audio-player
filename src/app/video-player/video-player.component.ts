@@ -60,7 +60,9 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
     this.videoPlayer.nativeElement.volume = this.volumnSlide;
     console.log(this.volumnSlide);
   }
+  // setVolumn(e, volumnSlide) {
 
+  // }
   videoLenghtChanged() {
     this.videoPlayer.nativeElement.currentTime = this.videoCurrentTime;
    console.log(this.videoCurrentTime);
@@ -73,9 +75,6 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
     this.playPauseBtn = true;
   }
 
-  videoChanged() {
-    this.videoLenghtChanged();
-  }
 
   videoTimeUpdate(a, info) {
     // this.videoLenghtChanged();
@@ -83,6 +82,13 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
     // console.log(a);
     // console.log('tim eupdated ');
    //  alert();
+    
+  }
+
+  setVideoTime(e, videoCurrentTime) {
+    console.log(e);
+    console.log(videoCurrentTime);
+    this.videoPlayer.nativeElement.currentTime =  videoCurrentTime;
     
   }
 
