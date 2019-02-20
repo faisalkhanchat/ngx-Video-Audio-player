@@ -1,17 +1,19 @@
 <ng-container *ngIf="videoUrl !== ''">
   <video controls (click)="toggleVideo()" #videoPlayer poster="{{posterUrl}}"  
-  (loadedmetadata)="onMetadata($event, videoPlayer)" (ended)="vidEnded()" (timeupdate)="videoTimeUpdate($event, videoPlayer)" (volumechange)="getVolumnChange($event)" muted="true" >
+  (loadedmetadata)="onMetadata($event, videoPlayer)" (ended)="vidEnded()" 
+  (timeupdate)="videoTimeUpdate($event, videoPlayer)" (volumechange)="getVolumnChange($event)" >
     <source [src]="videoUrl" type="video/mp4" />
       Browser not supported
   </video>
   <div class="duration">
-    <span> {{ videoCurrentTime }} </span> /
-    <span> {{ videoDuration }} </span>
-  </div>
+    <span> {{ videoCurrentTime | videoTime }} </span> / <span> {{ videoDuration | videoTime }} </span>
+  </div> 
+  <br> <br>
+  <button class="fullScreen" (click)="toggleFullScreen()" > Full Screen {{ fullMode ? 'On' : 'Off' }} </button> <br> <br>
   <button class="play" (click)="toggleVideo()"> {{ playPauseBtn ? 'Play' : 'Pause' }} </button>  <br> <br>
   <button class="mute" (click)="toggleMute()"> Mute {{ muteStatus ? 'On' : 'off' }} </button>  <br> <br>
   
-  <mat-slider [disabled]="muteStatus" min="0" max="1" step="0.1" [(value)]="volumnSlide" thumbLabel ></mat-slider>  <br> <br>
-  <mat-slider step="{{videoSteps}}"  min="{{videoDurationMin}}" max="{{videoDuration}}" [(value)]="videoCurrentTime" thumbLabel (change)="setVideoTime()" ></mat-slider>
+  <mat-slider [disabled]="muteStatus" min="0" max="1" step="0.1" [(value)]="volumnSlide"  (change)="setVolumn()" ></mat-slider>  <br> <br>
+  <mat-slider step="{{videoSteps}}"  min="{{videoDurationMin}}" max="{{videoDuration}}" [(value)]="videoCurrentTime"  (change)="setVideoTime()" ></mat-slider>
   
 </ng-container>

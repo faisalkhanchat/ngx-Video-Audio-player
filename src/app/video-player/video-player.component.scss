@@ -1,0 +1,8 @@
+.fullScreen{
+    position: relative;
+    &.active{
+        position: absolute;
+        top: 90%;
+        right: 10%;
+    }
+}

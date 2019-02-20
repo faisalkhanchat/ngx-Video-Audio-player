@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
+import { element } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-video-player',
@@ -9,11 +10,12 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
 
   @Input() videoUrl: string;
   @Input() posterUrl: string;
-  @ViewChild('videoPlayer') videoPlayer: any;
+  @ViewChild('videoPlayer') videoPlayer: ElementRef<HTMLVideoElement>;
   currentTime: 0;
   playPauseBtn = true;
   volumnSlide: any;
   muteStatus: boolean;
+  fullMode = false;
   videoDuration = 0;
   videoCurrentTime = 1;
   videoDurationMin = 0;
@@ -21,14 +23,10 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
   constructor() { }
 
   ngOnInit() {
-    // console.log(this.videoUrl);
-    // console.log(this.posterUrl);
   }
 
   ngAfterViewInit() {
-  // console.log(this.getCurrentTime());
   }
-
 
 
   onMetadata(e, video) {
@@ -37,20 +35,26 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
     this.videoDuration = video.duration;
     this.videoSteps = this.videoDuration / 10;
     console.log(this.videoSteps);
-
-   this.getCurrentTime();
-   this.getCurrentVolumn();
-   // this.volumnSlide = this.videoPlayer.nativeElement.volume;
+    this.videoCurrentTime = this.getCurrentVideoTime();
+    this.getCurrentVolumn();
   }
 
-  getCurrentTime() {
-    this.videoCurrentTime =  this.videoPlayer.nativeElement.currentTime ;
-  }
+
 
   getCurrentVolumn() {
     this.volumnSlide = this.videoPlayer.nativeElement.volume;
   }
 
+  // ================= Button Toggle Events ================ //
+
+  toggleFullScreen() {
+    const videoElement = this.videoPlayer.nativeElement.requestFullscreen();
+    this.fullMode = !this.fullMode;
+  }
+  toggleMute() {
+    this.videoPlayer.nativeElement.muted = !this.videoPlayer.nativeElement.muted;
+    this.muteStatus = !this.muteStatus;
+  }
   toggleVideo(event: any) {
 
     if (this.playPauseBtn) {
@@ -63,14 +67,14 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
   }
 
   getVolumnChange() {
-      // console.log(voll);
-      this.volumnSlide = this.videoPlayer.nativeElement.volume;
-      console.log(this.volumnSlide);
+    this.getCurrentVolumn();
   }
-
+  setVolumn() {
+    this.videoPlayer.nativeElement.volume = this.volumnSlide;
+  }
   videoLenghtChanged() {
     this.videoPlayer.nativeElement.currentTime = this.videoCurrentTime;
-   console.log(this.videoCurrentTime);
+    console.log(this.videoCurrentTime);
   }
 
 
@@ -79,18 +83,16 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
     // alert();
     this.playPauseBtn = true;
   }
-
+  getCurrentVideoTime() {
+    return this.videoPlayer.nativeElement.currentTime;
+  }
   videoTimeUpdate() {
-    this.getCurrentTime();
+    this.videoCurrentTime = this.getCurrentVideoTime();
   }
 
   setVideoTime() {
-    this.videoPlayer.nativeElement.currentTime =  this.videoCurrentTime;
+    this.videoPlayer.nativeElement.currentTime = this.videoCurrentTime;
   }
 
-  toggleMute() {
-    this.videoPlayer.nativeElement.muted = !this.videoPlayer.nativeElement.muted;
-    this.muteStatus = !this.muteStatus;
-  }
 
 }
