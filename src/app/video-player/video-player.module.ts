@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { VideoPlayerComponent } from './video-player.component';
 import {MatSliderModule} from '@angular/material/slider';
 import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
-import { GestureConfig } from '@angular/material';
+import { GestureConfig, MatProgressBarModule } from '@angular/material';
 import { VideoTimePipe } from './video-time.pipe';
 @NgModule({
   declarations: [VideoPlayerComponent, VideoTimePipe],
@@ -13,6 +13,7 @@ import { VideoTimePipe } from './video-time.pipe';
     BrowserAnimationsModule,
     MatSliderModule,
     BrowserModule,
+    MatProgressBarModule
   ],
   exports: [VideoPlayerComponent],
   providers: [

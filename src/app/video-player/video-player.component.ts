@@ -15,6 +15,8 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
   playPauseBtn = true;
   volumnSlide: any;
   muteStatus: boolean;
+  videoBuffered = 0;
+  videoBufferedData = 0;
   fullMode = false;
   videoDuration = 0;
   videoCurrentTime = 1;
@@ -37,6 +39,7 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
     console.log(this.videoSteps);
     this.videoCurrentTime = this.getCurrentVideoTime();
     this.getCurrentVolumn();
+    
   }
 
 
@@ -66,18 +69,21 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
     }
   }
 
+    // ================= Volumn Events ================ //
+
   getVolumnChange() {
     this.getCurrentVolumn();
   }
   setVolumn() {
     this.videoPlayer.nativeElement.volume = this.volumnSlide;
   }
+
+  // ================= Video Time  Events ================ //
+
   videoLenghtChanged() {
     this.videoPlayer.nativeElement.currentTime = this.videoCurrentTime;
-    console.log(this.videoCurrentTime);
+    // console.log(this.videoCurrentTime);
   }
-
-
 
   vidEnded() {
     // alert();
@@ -88,11 +94,24 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
   }
   videoTimeUpdate() {
     this.videoCurrentTime = this.getCurrentVideoTime();
+    // console.log(this.videoPlayer.nativeElement.duration);
   }
 
   setVideoTime() {
     this.videoPlayer.nativeElement.currentTime = this.videoCurrentTime;
   }
 
+  // ================= Video Time  Events ================ //
+
+  videoProgress() {
+    setTimeout(() => {
+      this.videoBufferedData = Math.round(( this.videoPlayer.nativeElement.buffered.end(0)  / this.videoPlayer.nativeElement.duration) * 100);
+      console.log( this.videoBufferedData + 'sd asdfasdf') ;
+      
+    }, 10);
+    console.log('progress============');
+
+
+  }
 
 }
